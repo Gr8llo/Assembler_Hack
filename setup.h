@@ -8,4 +8,4 @@ char *setup(char *inputFile);
 
 int checkExtension(char *fileName);
 
-#endif //SETUP_H
+#endif

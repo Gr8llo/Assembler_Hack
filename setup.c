@@ -9,7 +9,7 @@ char *setup (char *inputFile){
     strcpy(fileName, inputFile);
 
     if(!checkExtension(fileName)) {
-        fprintf(stderr, "Invalid extension");
+        fprintf(stderr, "Invalid extension ");
         return NULL;
     }//check extension
 
@@ -22,8 +22,16 @@ char *setup (char *inputFile){
         fileName[i] = '\0';
     } //remove extension
 
+    char *fileOutSrc = (char *)malloc(strlen(fileName) + strlen(fileExtension) + 1);
 
+    if (fileOutSrc == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return NULL;
+    } //check memory allocation
 
+    //create file name with extension
+    strcat(strcpy(fileOutSrc, fileName), fileExtension);
+    return fileOutSrc;
 }
 
 int checkExtension(char *fileName) {
