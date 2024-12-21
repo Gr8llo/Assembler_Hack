@@ -3,6 +3,9 @@
 #include <string.h>
 #include "setup.h"
 
+#define true 1
+#define false 0
+
 char *setup (char *inputFile){
     // to not modify original input -> !!C vs c++
     char fileName[strlen(inputFile)+1];

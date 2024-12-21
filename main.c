@@ -5,8 +5,7 @@
 #include "setup.h"
 #include "assembler.h"
 
-#define true 1
-#define false 0
+#define MAX 60
 
 int main(const int argc, char *argv[]) {
 
@@ -34,16 +33,20 @@ int main(const int argc, char *argv[]) {
     } //check memory allocation
 
     //sistemare
-    int maxLineLength = 60;
-    char line[maxLineLength];
+    char line[MAX];
+	char *binaryLine;
 
-    char *binaryLine;
+    if(!checkVariableLabel(fileIn)) return 1; //errors already specified in setup
 
-    while(fgets(line, maxLineLength, fileIn) != NULL) {
-        binaryLine = asmToBin(line);
-        fputs(binaryLine, fileOut);
-        fputs("\n", fileOut);
+    while(fgets(line, MAX, fileIn) != NULL) {
+        if((binaryLine = asmToBin(line)) != NULL) {
+        	fputs(binaryLine, fileOut);
+        	fputs("\n", fileOut);
+        }
     }
+
+    //NOT pass directly "string_value"  as a parameter, segmentation fault => only read
+
     //ending all
     fclose(fileIn);
     fclose(fileOut);
