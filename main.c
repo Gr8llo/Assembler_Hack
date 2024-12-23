@@ -10,6 +10,7 @@
 
 //Ho lasciato alcuni commenti in inglese(per abitudine) lungo il codice per giustificare alcune scelte
 //Ho anche introdotto un controllo minimo per gli errori
+//per una breve descrizione del progetto o per problemi con il download l'ho caricato anche su git hub https://github.com/Gr8llo/Assembler_Hack
 
 int main(const int argc, char *argv[]) {
 
@@ -61,5 +62,6 @@ int main(const int argc, char *argv[]) {
     fclose(fileIn);
     fclose(fileOut);
     free(fileOutSrc);
+    free(binaryLine);
     return 0;
 }
