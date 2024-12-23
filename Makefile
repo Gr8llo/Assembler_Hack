@@ -1,6 +1,6 @@
 main: main.o setup.o assembler.o symbol.o
 	gcc -o main main.o setup.o assembler.o symbol.o
-	@echo "e[32mcompilazioen completata"
+	@echo "\e[32mcompilazione completata"
 
 main.o: main.c libraries/setup.h libraries/assembler.h
 	gcc -c main.c
@@ -16,7 +16,6 @@ symbol.o: libraries/symbol.c libraries/symbol.h
 
 #@start the command without printing output on terminal
 # -f to force remove
-
 clean:
 	@rm -f *.o *.hack *.txt main
 	@echo "\e[32mfile temporanei rimossi"
