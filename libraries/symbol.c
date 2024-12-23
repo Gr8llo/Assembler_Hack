@@ -1,13 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "symbol.h"
 
 #define INS_LEN 17 // INSTRUCITON_LENGTH -> 16 bit + '\0'
-#define MAX 60
+#define MAX 2056
 #define true 1
 #define false 0
 
+
+
 void removeSpaces(char *str){
+  if(str == NULL) return;
+
   int len = strlen(str);
   char tmp[len];
   int count = 0;
@@ -59,7 +64,8 @@ int insertSymbol(FILE *symbolTable, char *name, int val){
 		if(strcmpSymbol(symbol, name)==0) thereis = true;
 	}
   	if(!thereis){
-		fprintf(symbolTable, "%s\t%d\n", name, val);
+		fprintf(symbolTable, "%s\t%d", name, val);
+        fputs("\n", symbolTable);
 	}
 	return thereis;
 }
@@ -73,7 +79,9 @@ int checkVariableLabel(FILE *fileIn){
     //Labels
     while ((fgets(line, MAX, fileIn)) != NULL){
         removeSpaces(line);
-        lineNum += 1;
+        char *commentStart = strstr(line, "//");
+        if(commentStart != NULL) *commentStart = '\0';
+        if (line[0] != '\0' && line[0] != '\n' && line[0] != '\r' && line[0] != '(') lineNum++;
   		if(line[0] == '(') {
             removeFirstLastChar(line);
 			insertSymbol(symbolTable, line, lineNum);
@@ -101,37 +109,13 @@ int checkVariableLabel(FILE *fileIn){
 }
 
 
-void decToBin(char *number, char *binStr){
-    int num = atoi(number);
-    for(int i = INS_LEN-2; i >= 0; i--){
-        binStr[i] = (num % 2) + '0';
-        num = num / 2;
-    }
+int extractValue(char *name){
+  	FILE *symbolTable = fopen("variableLabel.txt", "r");
+    char line[MAX];
+	while(fgets(line, MAX, symbolTable) != NULL){
+		if(strcmpSymbol(name, line)==0) break;
+	}
+    int count = 0;
+   	while(line[count]!='\t') count++;
+    return atoi(line+count+1);
 }
-
-void Ainstrcution(char *codeLine, char *binStr){
-    binStr[INS_LEN-1] = '\0'; //first bit 0 = A instruction
-    codeLine[0] = '0';
-    decToBin(codeLine, binStr);
-}
-
-void Cinstrcution(char *codeLine){
-    char binStr[INS_LEN];
-    binStr[0] = '1'; //first bit 1 = C instruction
-}
-
-char *asmToBin(char *codeLine){
- 	char *binStr = (char *)malloc(INS_LEN);
-   	binStr[INS_LEN-1] = '\0';
-    if(codeLine == NULL) return NULL;
-    removeSpaces(codeLine);
-
-    if(codeLine[0]=='@'){
-       Ainstrcution(codeLine, binStr);
-    }
-    else{
-		//Cinstrcution(codeLine, binStr);
-    }
-    return binStr;
-}
-

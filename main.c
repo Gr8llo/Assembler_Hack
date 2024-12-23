@@ -2,10 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "setup.h"
-#include "assembler.h"
+#include "libraries/setup.h"
+#include "libraries/symbol.h"
+#include "libraries/assembler.h"
 
-#define MAX 60
+#define MAX 2056  //!!!!Warning a lot of buffer for long comments
+
+//Ho lasciato alcuni commenti in inglese(per abitudine) lungo il codice per giustificare alcune scelte
+//Ho anche introdotto un controllo minimo per gli errori
 
 int main(const int argc, char *argv[]) {
 
@@ -32,17 +36,23 @@ int main(const int argc, char *argv[]) {
         return 1;
     } //check memory allocation
 
-    //sistemare
     char line[MAX];
 	char *binaryLine;
 
     if(!checkVariableLabel(fileIn)) return 1; //errors already specified in setup
 
+    rewind(fileIn);
     while(fgets(line, MAX, fileIn) != NULL) {
-        if((binaryLine = asmToBin(line)) != NULL) {
-        	fputs(binaryLine, fileOut);
-        	fputs("\n", fileOut);
-        }
+      removeSpaces(line);
+      char *commentStart = strstr(line, "//");
+      if(commentStart != NULL) *commentStart = '\0';
+      if (line[0] == '\0' || line[0] == '\n' || line[0] == '\r' || line[0] == '(') continue; //continue salta al prossimo ciclo
+
+      if((binaryLine = asmToBin(line))!=NULL) {
+          fputs(binaryLine, fileOut);
+          fputc('\n', fileOut);
+      }
+      else break;
     }
 
     //NOT pass directly "string_value"  as a parameter, segmentation fault => only read
