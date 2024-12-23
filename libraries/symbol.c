@@ -104,8 +104,8 @@ int checkVariableLabel(FILE *fileIn){
         }
     }
 
+	fclose(symbolTable);
     return true;
-    fclose(symbolTable);
 }
 
 
@@ -118,4 +118,5 @@ int extractValue(char *name){
     int count = 0;
    	while(line[count]!='\t') count++;
     return atoi(line+count+1);
+    fclose(symbolTable);
 }

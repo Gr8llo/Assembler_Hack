@@ -54,6 +54,7 @@ int main(const int argc, char *argv[]) {
           fputc('\n', fileOut);
       }
       else break;
+      free(binaryLine);
     }
 
     //NOT pass directly "string_value"  as a parameter, segmentation fault => only read
@@ -62,6 +63,6 @@ int main(const int argc, char *argv[]) {
     fclose(fileIn);
     fclose(fileOut);
     free(fileOutSrc);
-    free(binaryLine);
+
     return 0;
 }
