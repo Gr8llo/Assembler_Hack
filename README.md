@@ -81,7 +81,7 @@ Per rimuovere i file oggetto e i file binari generati, esegui:
 make clean
 ```
 
-### Inglese 
+### English 
 
 To remove object files and generated binary files, run:
 
@@ -100,7 +100,7 @@ make clean
 - `Makefile`: Il Makefile per la compilazione del progetto.
 - `README.md`: Questo file di documentazione.
 
-### Inglese 
+### English 
 
 - `main.c`: The main file containing the logic of the assembler.
 - `libraries/setup.c` and `libraries/setup.h`: Handling the program's initialization.
